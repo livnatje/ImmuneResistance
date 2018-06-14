@@ -21,7 +21,8 @@ Interactive tSNE plots of the clinical and experimental single cell data are pro
 
 #### 2. Identifying immune resistance programs in malignant melanoma cells
 
-2.1. Generating the T cell exclusion signatures.
+Next, we will use the signatures that were generated for malignant and CD8 T cells (```cell.sig```) to characterize malignant cells in "cold" melanoma tumors (with low levels of T cell infiltration). Our data-driven approach will integrates single-cell (```r.sc```) and bulk RNA-Seq data (```rB```) to uncover the *T cell exclusion program* of malignant melanoma cells. 
+
 ```R
 exc.de<-mal.t.cell.exclusion(rB = r.tcga,r.sc = r.sc,cell.sig = cell.sig)
 ```
