@@ -1,7 +1,8 @@
-# ImmuneResistance
+# Mapping immune resistant cell states in melanoma
+
 Code and additional processed data for manuscript "Single-cell RNA-seq of melanoma ecosystems reveals sources of T cells exclusion linked to immunotherapy clinical outcomes"
 
-The ImmRes_master.R file reproduces the key results of the study.
+The ImmRes_master.R file reproduces the key results of the study. Here we will describe the first part of the analysis that includes the analysis of the single-cell data (the *discovery cohort*), where we will uncover a transcriptional program of immune resistance melanoma cells.
 
 #### 1. Generating de-novo cell subtype signatures
 
