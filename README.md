@@ -16,3 +16,5 @@ cell.type.de<-get.cell.type.sig()
 The resulting signatures will be written to tables ```Output/Tables/TableS3B_denovo.cell.subtype.sig.csv``` (reproducing **Table S3B** from Jerby-Arnon et al. 2018).
 
 It will then compute the overall expression of each cell subtype signature across the cells, and plot the results on a two dimentional embedding (t-Distributed Stochastic Neighbor Embedding (t-SNE)). The resulting figures will be found in  ```Output/Figures/Fig1D_tSNE.nonmal.pdf``` and ```Output/Figures/FigS1FG_tSNE.nonmal.pdf```(reproducing **Figures 1D** and **S1F-G** from Jerby-Arnon et al. 2018).
+
+![Screenshot](/Images/Fig1_REV3.pdf)
