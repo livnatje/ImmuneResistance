@@ -29,15 +29,18 @@ exc.de<-mal.t.cell.exclusion(rB = r.tcga,r.sc = r.sc,cell.sig = cell.sig)
 ```
 ![Fig1A](/Images/Fig1A.png)
 
-2.2. Generating the post-treatment signatures.
+Next, we will compare malignant melanoma cells from post-immunotherapy (anti-PD1 and anti-CTLA4) resistant melanoma tumors to those from treatment naive tumors. We will identify differentially expressed genes and derive the the post-treatment signatures.
+
 ```R
 trt.de<-get.post.trt.sig(r = r.sc,subs.trt = subs.trt)
 ```
-2.3. Generating the functional signatures
+We will then also identify genes which are co-regulated (positively) or anti-regulated (negatively) with genes whose inhibition desensitized melanoma cells to T cell mediated killing in functional screens [(Patel et al., 2017)](https://www.nature.com/articles/nature23477).
+
 ```R
 fnc.de<-get.fnc.res.sig(r = r.sc)
 ```
-2.4. Combining the signatures into the immune resistance program.
+Lastly, we will combining the different signatures into the immune resistance program.
+
 ```R
 res.sig<-get.res.program()
 ```
