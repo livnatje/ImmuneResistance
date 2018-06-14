@@ -20,5 +20,3 @@ It will then compute the overall expression of each cell subtype signature acros
 ![tSNE_nonmal_small](/Images/tSNE_nonmal_small.png)
 
 Interactive tSNE plots of the clinical and experimental single cell data are provided in the [Single Cell Portal](https://portals.broadinstitute.org/single_cell/study/melanoma-immunotherapy-resistance).
-
-<a href="https://portals.broadinstitute.org/single_cell/study/melanoma-immunotherapy-resistance" target="blank">google</a>
