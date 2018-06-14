@@ -3,13 +3,11 @@ Code and additional processed data for manuscript "Single-cell RNA-seq of melano
 
 The ImmRes_master.R file reproduces the key results of the study.
 
-#### Generating de-novo cell subtype signatures
+#### 1. Generating de-novo cell subtype signatures
 
 First it downloads the annotated clinical single-cell RNA-seq (scRNA-seq) data and analyzes it to derive cell subytpe specific signatures, by running the code which is provided in ```GitHub1_denovoCellTypeSig.R```
 
 ```R
-print("1. Generating de-novo cell-type signatures.")
-# The code is provided in "GitHub1_denovoCellTypeSig.R"
 cell.type.de<-get.cell.type.sig()
 ```
 
@@ -20,3 +18,22 @@ It will then compute the overall expression of each cell subtype signature acros
 ![tSNE_nonmal_small](/Images/tSNE_nonmal_small.png)
 
 Interactive tSNE plots of the clinical and experimental single cell data are provided in the [Single Cell Portal](https://portals.broadinstitute.org/single_cell/study/melanoma-immunotherapy-resistance).
+
+#### 2. Identifying immune resistance programs in malignant melanoma cells
+
+2.1. Generating the T cell exclusion signatures.
+```R
+exc.de<-mal.t.cell.exclusion(rB = r.tcga,r.sc = r.sc,cell.sig = cell.sig)
+```
+2.2. Generating the post-treatment signatures.
+```R
+trt.de<-get.post.trt.sig(r = r.sc,subs.trt = subs.trt)
+```
+2.3. Generating the functional signatures
+```R
+fnc.de<-get.fnc.res.sig(r = r.sc)
+```
+2.4. Combining the signatures into the immune resistance program.
+```R
+res.sig<-get.res.program()
+```
