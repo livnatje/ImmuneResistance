@@ -15,7 +15,7 @@ set.TCGA<-function(r.tcga = NULL,res.sig = NULL,cell.sig = NULL){
 
 prd.TCGA.survival<-function(r){
   results<-cbind.data.frame(cox = cox.mat(t(r$res),r)[,"Zscore"],
-                            cox = cox.mat(t(r$res),r,X = r$tme[,"T.CD8"])[,"Zscore"])
+                            cox.CD8.T = cox.mat(t(r$res),r,X = r$tme[,"T.CD8"])[,"Zscore"])
   saveRDS(results,file = "../Results/Predictors/TCGA.OS.prf.rds")
   return(results)
 }
@@ -71,53 +71,8 @@ prd.public.ICB.response<-function(R){
   ICB.prd1<-lapply(R[idx],test.sig)
   ICB.prd2<-lapply(colnames(ICB.prd1[[1]]), function(x) rearrange(ICB.prd1,R[idx],x))
   names(ICB.prd2)<-colnames(ICB.prd1[[1]])
-  save(ICB.prd1,ICB.prd2,file = "../Results/Predictors/ExtVal.prf.RData")
+  saveRDS(ICB.prd2,file = "../Results/Predictors/public.ICB.prf.rds")
   return(ICB.prd2)
-}
-
-prd.MAPKi.Hugo<-function(r,res.sig,cell.sig,mapki.sig,mal.genes,all.genes){
-  if(is.null(r)){
-    library(lme4);library(lmerTest);attach(mtcars)
-    load("../Data/all_gene_sets_0204_withSnS.RData")
-    r<-readRDS("../Data/PublicData/MAPKi.Hugo.Cell.2015.rds")
-    load("../Results1/Signatures/resistance.program.new.rds")
-    # load("../Results/Signatures/resistance.program.rds")
-    load("../Results1/Signatures/cell.type.sig.RData")
-    mapki.sig<-readRDS("../Data/PublicData/public.ICR.sig.rds")[c("mapki.res.up","mapki.res.down")]
-    mal.genes<-readRDS("../Data/scData/Mel.malignant_genes.rds")
-    all.genes<-readRDS("../Data/scData/Mel.all.data.QC_genes.rds")
-    r<-compute.samples.res.scores(r = r,res.sig = res.sig,cell.sig = cell.sig,
-                                      residu.flag = F,cc.sig = F,num.rounds = 100)
-    r$mapki<-get.OE.bulk(r,mapki.sig,num.rounds = 100)
-    r$cc.scores<-get.OE.bulk(r,go.env[c("Melanoma_cell_cycle_Tirosh","G1_S_Tirosh","G2_M_Tirosh")])
-    results<-prd.MAPKi.Hugo(r,res.sig,cell.sig,mapki.sig,mal.genes,all.genes)
-  }
-  
-  # r$tme<-r$tme[,c("B.cell","CAF","Endo.","Macrophage","NK","T.cell")]
-  r$y<-r$res[,"res"]
-  f<-function(y){
-    r$y<-y
-    M1 <- with(r,lmer (y ~ prog + (1 | patient) + tme, mtcars))
-    v<-summary(M1)$coefficient["progTRUE",c("Estimate","Pr(>|t|)")]
-    return(v)
-  }
-  
-  f.tme<-function(y){
-    r$y<-y;M1 <- with(r,lmer (y ~ prog + (1 | patient), mtcars))
-    v<-summary(M1)$coefficient["progTRUE",c("Estimate","Pr(>|t|)")]
-    return(v)
-  }
-  
-  results<-list(HLM.res = cbind.data.frame(t(apply(r$res,2,f)),
-                                           no.tme = t(apply(r$res,2,f.tme))),
-                HLM.mapki = t(apply(r$mapki,2,f)),
-                HLM.cc = t(apply(r$cc.scores,2,f)),
-                HLM.tme = t(apply(r$tme,2,f.tme)),
-                anova = t(anova.mat(cbind(r$res,r$cc.scores,r$mapki),r$patient)),
-                HG.res = GO.enrichment.lapply(res.sig,mal.genes,mapki.sig),
-                HG.tme = GO.enrichment.lapply(cell.sig,all.genes,mapki.sig))
-  # save(results,file = "../Results/Predictors/Prd.MAPKi.res.Hugo2015.RData")
-  return(results)
 }
 
 compute.samples.res.scores<-function(r,res.sig,cell.sig,residu.flag = F,

@@ -15,9 +15,9 @@ apply.drug.response.vs.state.HLM<-function(ic50,state,r,disc.flag = T,q.drug.sen
   r$state<-state
   p<-t(apply(ic50,2,function(x){
     drug.response.vs.state.HLM(x,r,
-                                   disc.flag = disc.flag,
-                                   q.drug.sen = q.drug.sen,
-                                   q.res.state = q.res.state)
+                               disc.flag = disc.flag,
+                               q.drug.sen = q.drug.sen,
+                               q.res.state = q.res.state)
   }))
   p<-cbind.data.frame(Z = get.cor.zscores(p[,"Estimate"],p[,"Pr(>|z|)"]),p)
   p<-p[order(p[,"Z"],decreasing = T),]

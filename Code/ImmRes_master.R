@@ -33,16 +33,11 @@ master.code<-function(){
   mapki.results<-test.matched.MAPKi.Hugo(r = mapkiCo)
   
   ######################################################################################
-  print("4. Predicting ICB responses in published cohorts.")
+  print("4. Predicting OS and ICB responses in published cohorts.")
   # The code is provided in "ImmRes4_predictICBresponses.R"
-  print("4.1 Use different signatures to predict ICB responses.")
   r.tcga<-set.TCGA(r.tcga = r.tcga)
   R<-set.public.ICB.cohorts()
-  print("4.2 Testing OS predictions (TCGA).")
-  tcga.OS.prf<-prd.TCGA.survival(r.tcga)
-  print("4.3 Testing ICB response predictions.")
-  ICB.prf<-prd.public.ICB.response(R)
-  
+ 
   ######################################################################################
   print("5. Predicting ICB responses in Validation Cohort #2.")
   # The code is provided in "ImmRes5_valCohort2.R"
@@ -58,40 +53,12 @@ master.code<-function(){
   
   ######################################################################################
   print("7. Exploring the impact of CDK4/6 inhibition on melanoma cells.")
-  
-  
+  print("See the interactive data and plots in the single-cell portal")
+  sc.url<-"https://portals.broadinstitute.org/single_cell/study/melanoma-immunotherapy-resistance#study-visualize"
+  browseURL(sc.url, browser = getOption("browser"),
+            encodeIfNeeded = FALSE)
   return()
 }
 
-master.extra<-function(){
-  ##########################************** EXTRA **************#########################
-  
-  ######################################################################################
-  print("Co-regulation of the resistance program within and across tumors")
-  # Code provided in Melanoma.functions.R
-  ICR.coregulation()
-  
-  print("c-map analysis.")
-  # Code provided in Melanoma.functions.R
-  # Write the shorter version of the resistance program
-  cmap.analysis()
-  # Run c-map (from the website)
-  # Analyze the results
-  cmap.analysis()
-  
-  print("Comparison to other signatures.")
-  
-  ######################################################################################
-  print("Spatial analyses.")
-  # Code provided in ImmRes_spatial.R
-  spatial.master()
-  
-  ######################################################################################
-  print("Intrinsic variation analyses (scRNA-seq of mice cancer cell lines).")
-  # Code provided in Melanoma.functions.R
-  # Load the mouse cell lines scRNA-seq data; identify DEG and compare to the resistance program.
-  mouse.cl.rsl<-mouse.cell.lines.analysis()
-  
-}
 
 

@@ -334,16 +334,20 @@ trt.HLM<-function(r,de){
 cell.cell.interactions.new.dataset<-function(bulk.tpm,sc.tpm,sc.n.reads,
                                              cellA.markers,cellB.markers,
                                              cellA.name,cellB.name,
+                                             bulk.confounders = NULL,
+                                             sc.confounders = NULL,
                                              fileName,sigFilePath){
   
   rB<-list(samples = colnames(bulk.tpm),genes = rownames(bulk.tpm),tpm = bulk.tpm)
   r.sc<-list(cells = colnames(sc.tpm),genes = rownames(sc.tpm),tpm = sc.tpm,
              comp = colSums(sc.tpm>0),comp.reads = sc.n.reads)
-  results<-cell.cell.intr(rB,r.sc,
+  results<-cell.cell.intr(rB = rB,r.sc = r.sc,
                           cellA.markers = cellA.markers,
                           cellB.markers = cellB.markers,
                           cellA.name = cellA.name,
                           cellB.name = cellB.name,
+                          bulk.confounders = bulk.confounders,
+                          sc.confounders = sc.confounders,
                           fileName = fileName, pval = 0.1)
   write.csv(list.2.mat(results$sig.final),file = sigFilePath)
   return(results)
