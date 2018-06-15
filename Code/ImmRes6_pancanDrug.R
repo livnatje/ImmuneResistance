@@ -1,5 +1,6 @@
 find.sensitizing.drugs<-function(r = NULL){
   if(is.null(r)){r<-readRDS("../Data/PublicData/Sanger.Garnett.data.rds")}
+  if(is.null(r$res)){r$res<-cmb.res.scores(r = r,res.sig = res.sig,bulk.flag = T)}
   results<-list(garnett = apply.drug.response.vs.state.HLM(ic50 = r$garnett.ic50,state = r$res[,"res"],r = r),
                 gong = cdk46i.efficacy.analysis(r = r,state = r$res[,"res"],
                                                 q.drug.sen = 0.25,q.drug.res = 0.5,q.res.state = 0.75))
@@ -24,7 +25,7 @@ apply.drug.response.vs.state.HLM<-function(ic50,state,r,disc.flag = T,q.drug.sen
   return(p)
 }
 
-drug.response.vs.state.HLM<-function(y,r0,disc.flag = F,q.drug.sen = 0.25,q.res.state = 0.75){
+drug.response.vs.state.HLM<-function(y,r0,disc.flag = T,q.drug.sen = 0.25,q.res.state = 0.75){
   r0$y<-y;b<-!is.na(y)
   r0<-list(state = r0$state[b],y = r0$y[b],types = r0$types[b])
   r0$y<-(r0$y<quantile(r0$y,q.drug.sen))

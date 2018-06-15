@@ -106,7 +106,7 @@ cell.cell.intr<-function(rB,r.sc,cellA.markers,cellB.markers,cellA.name = "malig
   return(results)
 }
 
-test.seed.sig<-function(r,results,no.itr = 1000){
+test.seed.sig<-function(r,results,no.itr = 100){
   no.cellA.markers <- length(results$cellA.markers)
   seed.cor<-get.cor(results$sc.seed.scores,method = "pearson")
   rnd.seed.att<-list();rnd.seed.exc<-list()
@@ -271,64 +271,6 @@ get.scde.ttest.sig<-function(de,no.elm = 200,scde.c = (-1.96),
   sig<-list(up = intersect(sig.scde$scde.cZ.up,sig[[1]]),
             down = intersect(sig.scde$scde.cZ.down,sig[[2]]));print(summary(sig))
   return(sig)
-}
-
-trt.immune<-function(r = NULL, cell.type = ""){
-  if(is.null(r)){
-    fileName<-paste0("../Data/scData/Mel.",cell.type,".QC.RData")
-    r<-readRDS(fileName)
-  }
-  cell.type<-my.gsub(c("Mel.",".QC"),"",r$data.name)
-  print(paste("Identifying a post-treatment signature for",cell.type))
-  de<-find.DEG(r,main = "post.treatment",mainP = "treated")
-  de<-trt.HLM(r,de)
-  fileName<-paste0("../Results/Resistance/PostTreatment/",
-                   cell.type,"_post.treatment.de.RData")
-  saveRDS(de,file = fileName)
-  return(de)
-}
-
-trt.HLM<-function(r,de){
-  if(max(r$comp.reads)>2){
-    print("Transforming complexity")
-    r$comp.reads<-log(r$comp.reads)
-    r$comp.reads<-r$comp.reads/max(r$comp.reads)
-    r$comp<-r$comp/max(r$comp)
-  }
-  
-  library(lme4);library(lmerTest);attach(mtcars)
-  f1<-function(r,x){
-    r$x<-x
-    M1 <- with(r, lmer (x ~ comp.reads + (1 | samples) + treated, mtcars))
-    v<-summary(M1)$coefficients["treatedTRUE",c("Estimate","Pr(>|t|)")]
-    return(v)
-  }
-  f2<-function(r,x){
-    v<-tryCatch({f1(r,x)},
-                error = function(err){return(c(NA,NA))})
-    return(v)
-  }
-  b<-rowSums(r$norm,na.rm = T)==0;r$norm[b,]<-r$tpm[b,]
-  P<-t(apply(r$norm[unlist(de$sig),],1,function(x) f2(r,x)))
-  P<-cbind.data.frame(Z = get.cor.zscores(P[,"Estimate"],P[,"Pr(>|t|)"]),P)
-  de$hlm<-P
-  de$sig.hlm<-get.top.cor(m = P,no.elm = Inf,min.cf = log10(0.1),idx = "Z")
-  de$sig.hlm<-list(up = intersect(de$sig$up,de$sig.hlm$Z.up),
-                   down = intersect(de$sig$down,de$sig.hlm$Z.down))
-  
-  sig<-c(de$sig,de$sig.hlm)
-  names(sig)<-c("scde.rank.up","scde.rank.down","hlm.up","hlm.down")
-  print(summary(sig))
-  de$sig<-sig
-  r$res<-compute.state.scores(r,sig)
-  lapply(colnames(r$res[,1:2]), function(x){
-    plot.immuno.de(r,r$res[,x],filpd = grepl("down",x),
-                   f = colMeans,subfigureF = T,
-                   main = x)
-  })
-  load("../Data/all_gene_sets_0204_withSnS.RData")
-  de$go<-GO.enrichment.lapply(go.env,r$genes,de$sig)
-  return(de)
 }
 
 cell.cell.interactions.new.dataset<-function(bulk.tpm,sc.tpm,sc.n.reads,
