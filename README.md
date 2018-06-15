@@ -19,13 +19,13 @@ To reproduce the results reported in Jerby-Arnon _et al._ download _**ImmRes_Rfi
 
 In _R_ go to the _Code_ directory and run ```master.code()``` which is provided in _ImmRes_master.R_. The ```master.code()``` will walk you through the different stages of the study, divided into six main modules:
 
-[**(1-2)** First](https://github.com/livnatje/ImmuneResistance/wiki/1.-Mapping-immune-resistance-in-melanoma), analyzing the single-cell data to generate various gene signatures that characterize different cell subtypes and immune resistant cell states. For more information see [_Mapping immune resistance in melanoma_](https://github.com/livnatje/ImmuneResistance/wiki/1.-Mapping-immune-resistance-in-melanoma).
+[**(1-2)** First](https://github.com/livnatje/ImmuneResistance/wiki/Mapping-immune-resistance-in-melanoma), analyzing the single-cell data to generate various gene signatures that characterize different cell subtypes and immune resistant cell states. For more information see [_Mapping immune resistance in melanoma_](https://github.com/livnatje/ImmuneResistance/wiki/Mapping-immune-resistance-in-melanoma).
 
-[**(3-5)** Next](https://github.com/livnatje/ImmuneResistance/wiki/2.-Predicting-immunotherapy-resistance), analyzing independent cohorts obtained from bulk melanoma tumors to explore and test the immune resistance program. For more information see [_Predicting immunotherapy resistance_](https://github.com/livnatje/ImmuneResistance/wiki/2.-Predicting-immunotherapy-resistance).
+[**(3-5)** Next](https://github.com/livnatje/ImmuneResistance/wiki/Predicting-immunotherapy-resistance), analyzing independent cohorts obtained from bulk melanoma tumors to explore and test the immune resistance program. For more information see [_Predicting immunotherapy resistance_](https://github.com/livnatje/ImmuneResistance/wiki/Predicting-immunotherapy-resistance).
 
-[**(6)** Lastly](https://github.com/livnatje/ImmuneResistance/wiki/3.-Repressing-the-immune-resistance-program), performing a pan-cancer analysis to identify drugs that could repress the immune resistance program in cancer cells. For more information see [_Repressing the immune resistance program_](https://github.com/livnatje/ImmuneResistance/wiki/3.-Repressing-the-immune-resistance-program).
+[**(6)** Lastly](https://github.com/livnatje/ImmuneResistance/wiki/Repressing-the-immune-resistance-program), performing a pan-cancer analysis to identify drugs that could repress the immune resistance program in cancer cells. For more information see [_Repressing the immune resistance program_](https://github.com/livnatje/ImmuneResistance/wiki/Repressing-the-immune-resistance-program).
 
-## General notes
+# General notes
 
 The code provided in ```ImmRes_master.R``` reproduces the key results of the study. It also generates the study figures and table in the ```Output``` directory. The code follows the analyses that were performed in the study in a sequential manner. 
 
