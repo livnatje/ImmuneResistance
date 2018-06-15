@@ -1,11 +1,6 @@
 
-Tested in R version 3.4.0 (2017-04-21) -- "You Stupid Darkness". Required R libraries include: scde, matrixStats, plotrix, plyr, ppcor, survival, ROCR, Hmisc, rms, mixtools, lme4, lmerTest
+Welcome to the ImmuneResistance wiki!
 
-Quick start
+The purpose of this resource is to enable you to: **(1)** reproduce the key results of our recent study of immune resistance in melanoma (Jerby-Arnon _et al._); and **(2)** apply our approach to other single-cell cohorts to explore cell-cell interactions in cancer.
 
-To reproduce the results reported in Jerby-Arnon _et al._ download _**ImmRes_Rfiles.zip**_ from the [Single Cell Portal](https://portals.broadinstitute.org/single_cell/study/melanoma-immunotherapy-resistance#study-download).
-
-Unzip the file and move the resulting _Data_ direcotry to the ImmuneResistance direcotry.
-
-In _R_ go to the _Code_ directory and run ```master.code()``` which is provided in _ImmRes_master.R_.
-
+Visit our [wiki](https://github.com/livnatje/ImmuneResistance/wiki) page for instructions and details.
