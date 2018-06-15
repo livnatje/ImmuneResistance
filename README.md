@@ -11,7 +11,7 @@ Visit our [wiki](https://github.com/livnatje/ImmuneResistance/wiki) page for ins
 
 ## **Data**
 
-The data is provided through the [Single Cell Portal](https://portals.broadinstitute.org/single_cell/study/melanoma-immunotherapy-resistance#study-download) (_**ImmRes_Rfiles.zip**_).
+The data is provided through the [Single Cell Portal](https://portals.broadinstitute.org/single_cell/study/melanoma-immunotherapy-resistance#study-download) (```ImmRes_Rfiles.zip```).
 
 In the Portal you will also find the processed single-cell [gene expression](https://portals.broadinstitute.org/single_cell/study/melanoma-immunotherapy-resistance#study-download) of the clinical cohort and experimental data, as well as [interactive views](https://portals.broadinstitute.org/single_cell/study/melanoma-immunotherapy-resistance#study-visualize).
 
