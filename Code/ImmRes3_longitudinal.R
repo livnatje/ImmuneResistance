@@ -72,7 +72,6 @@ set.matched.MAPKi.Hugo<-function(){
 
 test.matched.MAPKi.Hugo<-function(r){
   if(is.null(r)){r<-readRDS("../Data/PublicData/MAPKi.Hugo.Cell.2015.rds")}
-  library(lme4);library(lmerTest);attach(mtcars)
   r$tme<-r$tme[,c("B.cell","CAF","Macrophage","T.cell","Mal")]
   f<-function(y){
     r$y<-y
@@ -81,7 +80,7 @@ test.matched.MAPKi.Hugo<-function(r){
     return(v)
   }
   results<-t(apply(cbind.data.frame(r$res,r$mapki),2,f))
-  print(results[c("res","resF","mapki"),])
+  print(results[c("res","resF","mapki.res"),])
   saveRDS(results,file = "../Results/Predictors/MAPKi.res.Hugo2015.prf.rds")
   return(results)
 }
