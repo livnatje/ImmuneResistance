@@ -1,24 +1,15 @@
-prd.aPD1<-function(r = NULL,res.sig,mal.genes,fileName = "tmp"){
+prd.aPD1<-function(r = NULL,res.sig,fileName = "tmp"){
   if(is.null(r)){
     load("../Results/Signatures/resistance.program.RData")
-    mal.genes<-readRDS("../Data/scData/Mel.malignant_genes.rds")
     r<-readRDS("../Data/ValidationCohorts/ValidationCohort2.rds")
     aPD1.val<-list()
-    r$res<-r$res.cc;aPD1.val$cc<-prd.aPD1(r,res.sig,mal.genes,fileName = "cc")
-    r$res<-r$res.ori;aPD1.val$ori<-prd.aPD1(r,res.sig,mal.genes,fileName = "ori")
+    r$res<-r$res.cc;aPD1.val$cc<-prd.aPD1(r,res.sig,fileName = "cc")
+    r$res<-r$res.ori;aPD1.val$ori<-prd.aPD1(r,res.sig,fileName = "ori")
     saveRDS(aPD1.val,"../Results/Predictors/ValCoh2.prf.rds")
     return(aPD1.val)
   }
   
   aPD1.val<-list()
-  r$mal.genes<-intersect(r$genes,mal.genes)
-  r$progB<-list.2.boolean.mat(get.top.elements(r$cox.genes[mal.genes,],no.elm = 100,min.cf = 0.01),r$mal.genes)
-  r$resB<-list.2.boolean.mat(res.sig,r$mal.genes)
-  aPD1.val$gene.HG<-get.hyper.p.value.mat(r$progB,r$resB)
-  aPD1.val$cox.res<-cbind.data.frame(cox.mat(t(r$res),r)[,c("coef","Zscore")],
-                                     con = cox.mat(t(r$res),r,X = r$tme[,"T.CD8"])[,"Zscore"])[,-1]
-  print("COX");print(aPD1.val$cox.res)
-  
   b1<-is.element(r$cb,c("non-CB","CB"))
   b2<-r$response!="na"&!is.na(r$response)&r$response!="MR"
   b3<-is.element(r$cbs,c("non-CB","CB>1yr"))
