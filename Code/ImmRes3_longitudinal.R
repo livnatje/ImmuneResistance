@@ -3,8 +3,8 @@ set.ValCo1<-function(){
   load("../Results/Signatures/cell.type.sig.full.RData")
   load("../Results/Signatures/resistance.program.RData")
   r<-compute.samples.res.scores(r = r,res.sig = res.sig,
-                                    cell.sig = cell.sig[c("B.cell","CAF","Macrophage","T.cell","Mal")],
-                                    residu.flag = F,cc.sig = NULL,num.rounds = 1000)
+                                cell.sig = cell.sig[c("B.cell","CAF","Macrophage","T.cell","Mal")],
+                                residu.flag = F,cc.sig = NULL,num.rounds = 1000)
   saveRDS(r,file = "../Data/ValidationCohorts/ValidationCohort1.rds")
   return(r)
 }
@@ -64,7 +64,7 @@ set.matched.MAPKi.Hugo<-function(){
   load("../Results/Signatures/cell.type.sig.RData")
   mapki.sig<-readRDS("../Data/PublicData/public.ICR.sig.rds")[c("mapki.res.up","mapki.res.down")]
   r<-compute.samples.res.scores(r = r,res.sig = res.sig,cell.sig = cell.sig,
-                                    residu.flag = F,cc.sig = NULL,num.rounds = 1000)
+                                residu.flag = F,cc.sig = NULL,num.rounds = 1000)
   r$mapki<-get.OE(r = r,sig = mapki.sig,bulk.flag = T,num.rounds = 1000)
   saveRDS(r,file = "../Data/PublicData/MAPKi.Hugo.Cell.2015.rds")
   return(r)

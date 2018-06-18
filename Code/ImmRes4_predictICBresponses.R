@@ -4,10 +4,10 @@ set.TCGA<-function(r.tcga = NULL,res.sig = NULL,cell.sig = NULL){
   if(is.null(cell.sig)){load("../Results/Signatures/cell.type.sig.full.RData")}
   
   r.tcga<-compute.samples.res.scores(r = r.tcga,
-                                         res.sig = res.sig,
-                                         cell.sig = cell.sig,
-                                         cc.sig = NULL,
-                                         residu.flag = F,num.rounds = 1000)
+                                     res.sig = res.sig,
+                                     cell.sig = cell.sig,
+                                     cc.sig = NULL,
+                                     residu.flag = F,num.rounds = 1000)
   print("Saving the TCGA melanoma cohort..")
   saveRDS(r.tcga,file = "../Data/PublicData/TCGA_SKCM.rds")
   return(r.tcga)
@@ -32,13 +32,13 @@ set.public.ICB.cohorts<-function(){
       print("Using the mouse signatures.")
       genes<-r$genes;r$genes<-casefold(r$genes);
       r<-compute.samples.res.scores(r = r,res.sig = lapply(iciA.sigs.mouse,casefold),
-                                        cell.sig = lapply(cell.sig.mouse,casefold),
-                                        residu.flag = F,cc.sig = NULL,num.rounds = 1000)
+                                    cell.sig = lapply(cell.sig.mouse,casefold),
+                                    residu.flag = F,cc.sig = NULL,num.rounds = 1000)
       r$genes<-genes
       return(r)
     }
     r<-compute.samples.res.scores(r = r,res.sig = iciA.sigs,cell.sig = cell.sig,
-                                      residu.flag = F,cc.sig = NULL,num.rounds = 1000)
+                                  residu.flag = F,cc.sig = NULL,num.rounds = 1000)
     return(r)
   })
   print("Saving ICB cohorts..")
@@ -76,7 +76,7 @@ prd.public.ICB.response<-function(R){
 }
 
 compute.samples.res.scores<-function(r,res.sig,cell.sig,residu.flag = F,
-                                         cc.sig = NULL,num.rounds = 1000){
+                                     cc.sig = NULL,num.rounds = 1000){
   r$res.ori<-NULL;r$res<-NULL;r$tme<-NULL;r$X<-NULL
   names(res.sig)<-gsub(" ",".",names(res.sig))
   two.sided<-unique(gsub(".up","",gsub(".down","",names(res.sig))))

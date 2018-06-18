@@ -55,6 +55,8 @@ drug.response.vs.state.HLM<-function(y,r0,disc.flag = T,q.drug.sen = 0.25,q.res.
 }
 
 cdk46i.efficacy.analysis<-function(r,state,q.drug.sen = 0.1,q.drug.res = 0.5,q.res.state = 0.9){
+  # Here we will use the efficacies of two CDK4/6 inhibitors (palbo. and abem.) to determine if a given
+  # cell line is sensitive to CDK4/6 inhibition
   f<-function(x){
     v<-ifelse(x<quantile(x,q.drug.sen,na.rm = T),"sen",
               ifelse(x>quantile(x,q.drug.res,na.rm = T),"res","?"))

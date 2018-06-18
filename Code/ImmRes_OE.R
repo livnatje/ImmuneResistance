@@ -134,7 +134,7 @@ find.cycling.cells<-function(r,cc.sig = NULL){
   if(is.null(cc.sig)){load("../Data/PublicData/cell.cycle.sig.RData")}
   r$cc.scores<-get.OE.sc(r,cc.sig)
   r$ccB<-apply(r$cc.scores,2,function(x) plot.bimodal.distribution(x,pos.label = "cycling",
-                                                                       neg.label = "non.cycling")$labelsF)
+                                                                   neg.label = "non.cycling")$labelsF)
   r$cc<-r$ccB[,"G1_S"]=="cycling"|r$ccB[,"G2_M"]=="cycling"
   print(paste("Found",sum(r$cc),"cycling cells"))
   plot.extra(r$cc.scores,labels = r$cc,xlab = "G1/S phase",ylab = "G2/M phase")

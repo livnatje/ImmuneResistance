@@ -56,11 +56,11 @@ set.aPD1<-function(r = NULL,iciA.sigs,cell.sig){
     load("../Results/CellTypes/cell.type.sig.RData")
   }
   r<-compute.samples.res.scores(r = r,
-                                    res.sig = iciA.sigs,
-                                    cell.sig = cell.sig,
-                                    residu.flag = T,
-                                    cc.sig =iciA.sigs[c("G1 S (Tirosh)","G2 M (Tirosh)")],
-                                    num.rounds = 1000);r$res.cc<-r$res
+                                res.sig = iciA.sigs,
+                                cell.sig = cell.sig,
+                                residu.flag = T,
+                                cc.sig =iciA.sigs[c("G1 S (Tirosh)","G2 M (Tirosh)")],
+                                num.rounds = 1000);r$res.cc<-r$res
   r$sampleName<-"ValidationCohort2_aPD1"
   print("Saving Validation Cohort II..")
   saveRDS(r,file = "../Data/ValidationCohorts/ValidationCohort2.rds")
@@ -74,17 +74,17 @@ aPD1.plot<-function(r,aPD1.val,fileName = ""){
   pdf(fileName)
   
   barplot.sig.prf(z = aPD1.val$ttest$CR.vs.others.zscores,
-                      l = rownames(aPD1.val$ttest),
-                      main = "CR vs. non-CR",
-                      p.type = "t-test",
-                      res.sig.names = res.sig.names)
+                  l = rownames(aPD1.val$ttest),
+                  main = "CR vs. non-CR",
+                  p.type = "t-test",
+                  res.sig.names = res.sig.names)
   
   b<-rownames(aPD1.val$cox.res)!="T.CD8"
   barplot.sig.prf(z = -aPD1.val$cox.res$con[b],
-                      l = rownames(aPD1.val$cox.res)[b],
-                      main = "PFS",
-                      p.type = "COX",
-                      res.sig.names = res.sig.names)
+                  l = rownames(aPD1.val$cox.res)[b],
+                  main = "PFS",
+                  p.type = "COX",
+                  res.sig.names = res.sig.names)
   
   aPD1.plot.response(r = r,aPD1.val = aPD1.val,plot.sig = c("res","resF","TME.T.CD8","resF.minus.TIL"),sd.flag = F)
   aPD1.plot.cb(r = r,aPD1.val = aPD1.val,plot.sig = c("res","resF","TME.T.CD8","resF.minus.TIL"))
@@ -121,9 +121,9 @@ aPD1.plot.cb<-function(r,aPD1.val,plot.sig){
   laply(plot.sig,function(x){
     print(x)
     boxplot.test(Xf[,x],l.cb,dots.flag = T,las =2,legend.flag = F,t.test.flag = "none",ylab = "OE",
-                     main = paste0(x,"\n",
-                                   format.pval.private(aPD1.val$ttestP[x,c("CB.vs.nonCB","longCB.vs.nonCB")]),
-                                   "\nAUC = ",round(aPD1.val$auc[x,"longCB.vs.others"],2)))
+                 main = paste0(x,"\n",
+                               format.pval.private(aPD1.val$ttestP[x,c("CB.vs.nonCB","longCB.vs.nonCB")]),
+                               "\nAUC = ",round(aPD1.val$auc[x,"longCB.vs.others"],2)))
   })
   return()
 }
@@ -144,9 +144,9 @@ aPD1.plot.response<-function(r,aPD1.val,plot.sig,sd.flag = F){
   par(mfrow=c(2,3),oma = c(0, 0, 3, 0))
   laply(plot.sig,function(x){
     boxplot.test(r$res[b,x],l.rs[b],dots.flag = T,las =2,legend.flag = F,t.test.flag = "none",ylab = "OE",
-                     main = paste0(x,"\n",
-                                   format.pval.private(aPD1.val$ttestP[x,"CR.vs.PR.PD"]),
-                                   "\nAUC = ",round(aPD1.val$auc[x,"CR.vs.others"],2)))
+                 main = paste0(x,"\n",
+                               format.pval.private(aPD1.val$ttestP[x,"CR.vs.PR.PD"]),
+                               "\nAUC = ",round(aPD1.val$auc[x,"CR.vs.others"],2)))
   })
   return()
 }

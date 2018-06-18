@@ -26,7 +26,7 @@ master.code<-function(){
   print("3. Longitudinal analysis.")
   # The code is provided in "ImmRes3_longitudinal.R"
   print("3.1 Analyzing Validation Cohort 1.")
-  valCo1<-set.ValCo1()
+  # valCo1<-set.ValCo1()
   valCo1.results<-test.ValCo1(r = valCo1)
   print("3.2 Analyzing a MAPKi resistance cohort (Hugo et al. 2015).")
   mapkiCo<-set.matched.MAPKi.Hugo()
@@ -37,12 +37,12 @@ master.code<-function(){
   # The code is provided in "ImmRes4_predictICBresponses.R"
   r.tcga<-set.TCGA(r.tcga = r.tcga)
   R<-set.public.ICB.cohorts()
- 
+  
   ######################################################################################
   print("5. Predicting ICB responses in Validation Cohort #2.")
   # The code is provided in "ImmRes5_valCohort2.R"
   print("5.1 Use different signatures to predict ICB responses.")
-  r.pd1<-set.aPD1()
+  # r.pd1<-set.aPD1()
   print("5.2 Testing ICB response predictions.")
   aPD1.val<-prd.aPD1()
   generate.fig5() # Provided in "ImmRes_output.R"
@@ -54,8 +54,10 @@ master.code<-function(){
   ######################################################################################
   print("7. Exploring the impact of CDK4/6 inhibition on melanoma cells.")
   print("See the interactive data and plots in the single-cell portal")
+  print("To login use the email account icr.review1@gmail.com, password icrreview2.")
   sc.url<-"https://portals.broadinstitute.org/single_cell/study/melanoma-immunotherapy-resistance#study-visualize"
   browseURL(sc.url, browser = getOption("browser"), encodeIfNeeded = FALSE)
+  
   return()
 }
 

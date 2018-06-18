@@ -11,7 +11,6 @@ library(lme4)
 library(lmerTest);attach(mtcars)
 library(plotrix)
 
-setwd('~/Desktop/GitHub/Code/')
 source('ImmRes_output.R')
 source('ImmRes_generic.R')
 source('ImmRes_OE.R')

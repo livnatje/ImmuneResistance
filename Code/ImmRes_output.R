@@ -1,5 +1,7 @@
 # Table S3B: Denovo cell sub/type signatures.
 # Table S4A: The immune resistance program.
+# Figures 1D and S1F-G: tSNE plots of non-malignant cells
+# Figure 5: The clinical predictive value of the immune resistance program
 
 write.all.tables<-function(){
   write.tableS3B_cell.subtype.signatures()
@@ -90,18 +92,18 @@ generate.fig5<-function(r.tcga = NULL,R = NULL,r.pd1 = NULL,aPD1.val = NULL){
   km.plot3(r.tcga,r.tcga$res[,"resu"],main = "TCGA (immune resistance)",xlim = 15,X = r.tcga$tme[,"T.CD8"],direction = 1)
   km.plot3(r.tcga,r.tcga$res[,"resu.down"],main = "TCGA (immune resistance down)",xlim = 15,X = r.tcga$tme[,"T.CD8"],direction = -1)
   km.plot3(r.tcga,r.tcga$res[,"resu"]-r.tcga$tme[,"T.CD8"],
-               main = "TCGA (immune resistance\nminus T cell levels)",xlim = 15,X = r.tcga$tme[,"T.CD8"],direction = 1)
+           main = "TCGA (immune resistance\nminus T cell levels)",xlim = 15,X = r.tcga$tme[,"T.CD8"],direction = 1)
   mtitle("Figure 5A")
   par(mfrow=c(1,2),oma = c(0, 0, 3, 0))
   b<-R$aCTLA4.mouse$response!="NE"
   boxplot.test(R$aCTLA4.mouse$res[b,"res"],
-                   ifelse(R$aCTLA4.mouse$response[b]=="CR","1.Responder","2.Non-\nresponder"),
-                   alternative = "greater",main = "Fig5B. aCTLA4 response in mice",
-                   dots.flag = T)
+               ifelse(R$aCTLA4.mouse$response[b]=="CR","1.Responder","2.Non-\nresponder"),
+               alternative = "greater",main = "Fig5B. aCTLA4 response in mice",
+               dots.flag = T)
   boxplot.test(R$aPD1.hugo$res[,"res"],
-                   ifelse(R$aPD1.hugo$response=="CR","1.Responder","2.Non-\nresponder"),
-                   alternative = "greater",main = "Fig5C. aPD1 response in melanoma patients",
-                   dots.flag = T)
+               ifelse(R$aPD1.hugo$response=="CR","1.Responder","2.Non-\nresponder"),
+               alternative = "greater",main = "Fig5C. aPD1 response in melanoma patients",
+               dots.flag = T)
   mtitle("Figure 5B-C")
   par(mfrow=c(2,3),oma = c(0, 0, 3, 0))
   m<-cbind.data.frame(sig = c("res","ccf.res","resF","resF.minus.TIL"),
@@ -110,8 +112,8 @@ generate.fig5<-function(r.tcga = NULL,R = NULL,r.pd1 = NULL,aPD1.val = NULL){
                                 "Immune resistance (refined)\nminus inferred T cell levels"))
   apply(m,1, function(x){
     km.plot3(r.pd1,r.pd1$res[,x[1]],xlim = 1.5,main = x[2],qua = 0.2,
-                 direction = ifelse(grepl("down",x[1]),-1,1),ylab = "PFS",
-                 X = r.pd1$tme[,"T.CD8"])})
+             direction = ifelse(grepl("down",x[1]),-1,1),ylab = "PFS",
+             X = r.pd1$tme[,"T.CD8"])})
   mtitle("Figure 5D")
   
   par(mfrow=c(2,2),oma = c(0, 0, 3, 0))
@@ -123,12 +125,11 @@ generate.fig5<-function(r.tcga = NULL,R = NULL,r.pd1 = NULL,aPD1.val = NULL){
   par(mfrow=c(1,1),oma = c(0, 0, 3, 0))
   b<-rownames(aPD1.val$ori$cox.res)!="T.CD8"
   barplot.sig.prf(z = -aPD1.val$ori$cox.res$con[b],l = rownames(aPD1.val$ori$cox.res)[b],
-                      main = "PFS",p.type = "COX",res.sig.names = aPD1.val$ori$res.sig.names)
+                  main = "PFS",p.type = "COX",res.sig.names = aPD1.val$ori$res.sig.names)
   mtitle("Figure 5E")
   barplot.sig.prf(z = aPD1.val$ori$ttest$CR.vs.others.zscores,l = rownames(aPD1.val$ori$ttest),
-                      main = "CR vs. non-CR",p.type = "t-test",res.sig.names = aPD1.val$ori$res.sig.names)
+                  main = "CR vs. non-CR",p.type = "t-test",res.sig.names = aPD1.val$ori$res.sig.names)
   mtitle("Figure 5H")
   dev.off()
   return()
-  
 }
