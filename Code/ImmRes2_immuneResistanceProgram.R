@@ -275,10 +275,12 @@ get.scde.ttest.sig<-function(de,no.elm = 200,scde.c = (-1.96),
 
 cell.cell.interactions.new.dataset<-function(bulk.tpm,sc.tpm,sc.n.reads,
                                              cellA.markers,cellB.markers,
-                                             cellA.name,cellB.name,
+                                             cellA.name = "malignant.cell",
+                                             cellB.name = "T.cell",
                                              bulk.confounders = NULL,
                                              sc.confounders = NULL,
-                                             fileName,sigFilePath){
+                                             fileName = "Malignant.T.cell.exclusion",
+                                             sigFilePath = "Malignant.T.cell.exclusion.signatures"){
   
   rB<-list(samples = colnames(bulk.tpm),genes = rownames(bulk.tpm),tpm = bulk.tpm)
   r.sc<-list(cells = colnames(sc.tpm),genes = rownames(sc.tpm),tpm = sc.tpm,

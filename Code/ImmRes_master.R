@@ -55,8 +55,7 @@ master.code<-function(){
   print("7. Exploring the impact of CDK4/6 inhibition on melanoma cells.")
   print("See the interactive data and plots in the single-cell portal")
   sc.url<-"https://portals.broadinstitute.org/single_cell/study/melanoma-immunotherapy-resistance#study-visualize"
-  browseURL(sc.url, browser = getOption("browser"),
-            encodeIfNeeded = FALSE)
+  browseURL(sc.url, browser = getOption("browser"), encodeIfNeeded = FALSE)
   return()
 }
 
