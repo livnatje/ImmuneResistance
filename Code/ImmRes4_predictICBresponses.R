@@ -120,6 +120,7 @@ cmb.res.scores<-function(r,res.sig = NULL,bulk.flag = T){
   }
   
   if(!all(is.element(c("trt","exc","exc.seed"),colnames(res)))){
+    print("No merge.")
     return(res)
   }
   res<-cbind.data.frame(excF = rowMeans(res[,c("exc","exc.seed")]),

@@ -1,5 +1,4 @@
 get.OE.sc <- function(r,gene.sign = NULL,num.rounds = 1000,mat.return.flag = T){
-  # Previous name: get.sign.scores
   set.seed(1234)
   r$genes.mean<-rowMeans(r$tpm)
   r$zscores<-sweep(r$tpm,1,r$genes.mean,FUN = '-')
@@ -34,34 +33,38 @@ get.OE.sc <- function(r,gene.sign = NULL,num.rounds = 1000,mat.return.flag = T){
   }
 }
 
-get.OE.bulk <- function(r,gene.sign = NULL,num.rounds = 1000,mean.flag = T){
-  # Previous name: get.sign.scores.bulk
+get.OE.bulk <- function(r,gene.sign = NULL,num.rounds = 1000,full.flag = F){
   set.seed(1234)
   r$genes.mean<-rowMeans(r$tpm)
   r$zscores<-sweep(r$tpm,1,r$genes.mean,FUN = '-')
-  if(mean.flag){
-    r$genes.dist<-rowMeans(r$tpm)
-  }else{
-    r$genes.dist<-t(colMedians(t(r$tpm)))
-  }
+  r$genes.dist<-r$genes.mean
   r$genes.dist.q<-discretize(r$genes.dist,n.cat = 50)
-  r$sign.scores<-matrix(data = 0,nrow = ncol(r$tpm),ncol = length(gene.sign))
-  sign.names<-names(gene.sign)
-  colnames(r$sign.scores)<-sign.names
+  r$sig.scores<-matrix(data = 0,nrow = ncol(r$tpm),ncol = length(gene.sign))
   sig.names<-names(gene.sign)
-  r$sign.scores.raw<-r$sign.scores
-  for (i in 1:length(gene.sign)){
-    b.sign<-is.element(r$genes,gene.sign[[i]])
-    if (sum(b.sign)>1){
-      rand.scores<-get.semi.random.OE(r,r$genes.dist.q,b.sign,num.rounds = num.rounds)
-      raw.scores<-colMeans(r$zscores[b.sign,])
-      final.scores<-raw.scores-rand.scores
-      r$sign.scores[,i]<-final.scores
-      r$sign.scores.raw[,i]<-raw.scores
-    }
+  colnames(r$sig.scores)<-sig.names
+  r$sig.scores.raw<-r$sig.scores
+  rand.flag<-is.null(r$rand.scores)|!all(is.element(names(gene.sign),colnames(r$rand.scores)))
+  if(rand.flag){
+    print("Computing also random scores.")
+    r$rand.scores<-r$sig.scores
   }
-  sign.scores<-r$sign.scores
-  return(sign.scores)
+  for (i in sig.names){
+    b.sign<-is.element(r$genes,gene.sign[[i]])
+    if(sum(b.sign)<2){next()}
+    if(rand.flag){
+      rand.scores<-get.semi.random.OE(r,r$genes.dist.q,b.sign,num.rounds = num.rounds)
+    }else{
+      rand.scores<-r$rand.scores[,i]
+    }
+    raw.scores<-colMeans(r$zscores[b.sign,])
+    final.scores<-raw.scores-rand.scores
+    r$sig.scores[,i]<-final.scores
+    r$sig.scores.raw[,i]<-raw.scores
+    r$rand.scores[,i]<-rand.scores
+  }
+  if(full.flag){return(r)}
+  sig.scores<-r$sig.scores
+  return(sig.scores)
 }
 
 get.semi.random.OE <- function(r,genes.dist.q,b.sign,num.rounds = 1000,full.flag = F){
@@ -139,4 +142,28 @@ find.cycling.cells<-function(r,cc.sig = NULL){
   print(paste("Found",sum(r$cc),"cycling cells"))
   plot.extra(r$cc.scores,labels = r$cc,xlab = "G1/S phase",ylab = "G2/M phase")
   return(r)
+}
+
+get.OE.bulk.specific.tpm <- function(r,gene.sign = NULL,num.rounds = 1000){
+  # Previous name: get.sign.scores.bulk
+  set.seed(1234)
+  r$genes.mean<-rowMeans(r$tpm)
+  r$zscores<-sweep(r$tpm,1,r$genes.mean,FUN = '-')
+  r$genes.dist<-r$genes.mean
+  r$genes.dist.q<-discretize(r$genes.dist,n.cat = 50)
+  r$sign.scores<-matrix(data = 0,nrow = ncol(r$tpm),ncol = length(gene.sign))
+  sig.names<-names(gene.sign)
+  colnames(r$sign.scores)<-sig.names
+  r$sign.scores.raw<-r$sign.scores
+  for (i in sig.names){
+    b.sign<-is.element(r$genes,gene.sign[[i]])
+    if (sum(b.sign)<2){next()}
+    rand.scores<-r$rand.scores[,i]
+    raw.scores<-colMeans(r$zscores[b.sign,])
+    final.scores<-raw.scores-rand.scores
+    r$sign.scores[,i]<-final.scores
+    r$sign.scores.raw[,i]<-raw.scores
+  }
+  sign.scores<-r$sign.scores
+  return(sign.scores)
 }

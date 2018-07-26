@@ -1,3 +1,22 @@
+aPD1.compute.res.scores<-function(r = NULL,res.sig = NULL,cc.flag = F){
+  # This function computes the OE of the immune resistance program
+  # (identified in Jerby et al. 2018) based on the TPM matrix of the program's genes.
+  # The TPM data is provided through the single-cell portal:
+  # https://portals.broadinstitute.org/single_cell/study/melanoma-immunotherapy-resistance#study-download
+  # File name: ValCo2_tpm_resistance.csv
+  
+  if(is.null(res.sig)){load("../Results/Signatures/resistance.program.RData")}
+  if(is.null(r)){r<-readRDS("../Data/ValidationCohorts/ValidationCohort2.rds")}
+  # r$tpm is the matrix provided in the protal (see above).
+  r$res<-get.OE(r,sig = res.sig,bulk.flag = T)
+  r$res<-t(get.residuals(t(r$res),r$n.genes))
+  resistance.scores<-cmb.res.scores(r)
+  if (cc.flag){
+    resistance.scores<-t(get.residuals(t(resistance.scores),r$cc.scores))
+  }
+  return(resistance.scores)
+}
+
 prd.aPD1<-function(r = NULL,res.sig,fileName = "tmp"){
   if(is.null(r)){
     load("../Results/Signatures/resistance.program.RData")
